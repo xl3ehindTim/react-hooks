@@ -19,16 +19,23 @@ const getCookieValue = (key: string) => {
 function useCookie(key: string, initialvalue: any) {
   const [cookie, setCookie] = useState(() => {
     try {
-      const value = getCookieValue(key);
-      return value;
+      // Get from cookie by key
+      const value = getCookieValue(key)
+      // Parse stored json or if none return initialValue
+
+      return value ? JSON.parse(value) : initialValue;
     } catch (error) {
-      return initialvalue;
+      return initialValue;
     }
   });
 
-  const updateCookie = (newValue: any) => {
-    setCookie(newValue);
-    document.cookie = `${key}=${newValue};`;
+  const updateCookie = (value: any) => {
+    // Allow value to be a function so we have same API as useState
+    const valueToStore = value instanceof Function ? value(cookie) : value;
+
+    setCookie(valueToStore)
+
+    document.cookie = `${key}=${JSON.stringify(valueToStore)};`;
   };
 
   const removeCookie = () => {
