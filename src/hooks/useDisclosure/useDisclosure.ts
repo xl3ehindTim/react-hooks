@@ -1,6 +1,6 @@
 import React from "react"
 
-export const useDisclosure = (isOpenDefault = false) => {
+const useDisclosure = (isOpenDefault = false) => {
   const [isOpen, setIsOpen] = React.useState(isOpenDefault)
 
   const onOpen = React.useCallback(() => setIsOpen(true), [])
@@ -15,3 +15,5 @@ export const useDisclosure = (isOpenDefault = false) => {
 
   return { isOpen, onOpen, onClose, onToggle }
 }
+
+export { useDisclosure }
